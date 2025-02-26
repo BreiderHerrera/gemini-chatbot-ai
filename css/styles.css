@@ -348,3 +348,52 @@ em-emoji-picker {
 body.show-emoji-picker em-emoji-picker {
     visibility: visible;
 }
+
+/* Responsive media query for mobile screens */
+@media (max-width: 520px) {
+    #chatbot-toggler {
+        right: 15px;
+        bottom: 15px;
+        width: 50px;
+        height: 50px;
+    }
+
+    .chatbot-popup {
+        right: 0;
+        bottom: 0;
+        height: 100%;
+        width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+        max-width: 100%;
+    }
+
+    .chatbot-popup .chat-header {
+        padding: 14px 18px;
+        font-size: 16px;
+    }
+
+    .chat-body {
+        height: calc(100vh - 120px);
+        overflow-y: auto;
+        padding: 10px;
+    }
+
+    .chat-form {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .chat-form input {
+        flex: 1;
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 6px;
+    }
+
+    .chat-form .file-upload-wrapper.file-uploaded #file-cancel {
+        opacity: 0;
+    }
+}
