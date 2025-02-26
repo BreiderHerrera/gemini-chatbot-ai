@@ -11,7 +11,7 @@ Sigue estos pasos para obtener tu clave de API de Gemini:
   <img src="https://cdn-icons-png.flaticon.com/512/9281/9281989.png" alt="Acceder a la API" width="100">
 </p>
 
-1. Accede al siguiente enlace: ([ aistudio ](https://aistudio.google.com/app/u/1/apikey?hl=es-419))
+1. Accede al siguiente enlace: <a href="https://aistudio.google.com/app/u/1/apikey?hl=es-419" target="_blank">aistudio</a>
 2. Haz clic en **"Get API Key"**.
 3. Acepta los términos y condiciones del servicio.
 
