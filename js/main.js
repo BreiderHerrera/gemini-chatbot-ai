@@ -10,6 +10,7 @@ const CloseChatbot = document.querySelector("#close-chatbot");
 
 
 // API Setup
+// API Configuración
 const API_KEY = "";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
@@ -25,6 +26,7 @@ const chatHistory = [];
 const initialInputHeight = messageInput.scrollHeight;
 
 // Scroll to the latest message
+// Desplácese hasta el último mensaje
 const scrollToLatestMessage = () => { chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: "smooth"}) };
 
 // Create message element with dynamic classes and return it
@@ -37,16 +39,19 @@ const createMessageElement = (content, ...classes) => {
 };
 
 // Generate bot response using API
+// Generar respuesta de bot usando API
 const generateBotResponse = async (incomingMessageDiv) => {
     const messageElement = incomingMessageDiv.querySelector(".message-text");
 
     // Add user message to chat history
+    // Agregar mensaje de usuario al historial de chat
     chatHistory.push({
         role: "user",
         parts: [{ text: userData.message }, ...(userData.file.data ? [{ inline_data: userData.file }] : [])]
     });
 
     // API request options
+    // Opciones de solicitud de API
     const requestOptions = {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -57,15 +62,18 @@ const generateBotResponse = async (incomingMessageDiv) => {
 
     try {
         // Fetch bot response from API
+        // Obtener la respuesta del bot desde la API
         const response = await fetch(API_URL, requestOptions);
         const data = await response.json();
         if(!response.ok) throw new Error(data.error.message);
 
         // Extract and display bot's response text
+        // Extraer y mostrar el texto de respuesta del bot
         const apiResponseText = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
         messageElement.innerText = apiResponseText;
 
         // Add bot response to chat history
+        // Agregar la respuesta del bot al historial de chat
         chatHistory.push({
             role: "model",
             parts: [{ text: apiResponseText }]
@@ -73,11 +81,13 @@ const generateBotResponse = async (incomingMessageDiv) => {
 
     } catch (error) {
         // Handle error in API response
+        // Manejar error en respuesta API
         console.error(error);
         messageElement.innerText = error.message;
         messageElement.style.color = "#ff0000";
     } finally {
         // Reset user's file data, removing thinking indicator and scroll chat to bottom
+        // Restablecer los datos del archivo del usuario, eliminar el indicador de pensamiento y desplazar el chat hasta el final
         userData.file = {};
         incomingMessageDiv.classList.remove("thinking");
         scrollToLatestMessage();
@@ -135,6 +145,7 @@ messageInput.addEventListener("keydown", (e) => {
 });
 
 // Adjust input field height dynamically
+// Ajustar la altura del campo de entrada dinámicamente
 messageInput.addEventListener("input",() => {
     messageInput.style.height = `${initialInputHeight}px`;
     messageInput.style.height = `${messageInput.scrollHeight}px`;
@@ -142,6 +153,7 @@ messageInput.addEventListener("input",() => {
 });
 
 // Handle file input change and preview the selected file
+// Manejar el cambio de entrada del archivo y obtener una vista previa del archivo seleccionado
 fileInput.addEventListener("change", () => {
     const file = fileInput.files[0];
     if(!file) return;
@@ -153,6 +165,7 @@ fileInput.addEventListener("change", () => {
         const base64String = e.target.result.split(",")[1];
 
         // Store file data in userData
+        // Almacenar datos de archivos en userData
         userData.file = {
             data: base64String,
             mime_type: file.type
@@ -165,12 +178,14 @@ fileInput.addEventListener("change", () => {
 });
 
 // Cancel file upload
+// Cancelar la carga de archivos
 fileCancelButton.addEventListener("click", () => {
     userData.file = {};
     fileUploadWrapper.classList.remove("file-uploaded");
 });
 
 // Initialize emoji picker and handle emoji selection
+// Inicializar el selector de emojis y manejar la selección de emojis
 const picker = new EmojiMart.Picker({
     theme: "light",
     skinTonePosition: "none",
